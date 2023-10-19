@@ -1,30 +1,42 @@
 #include "main.h"
+
 /**
- * printf_string - print a string.
- * @val: argument.
- * Return: the length of the string
+ * get_precision - Calculates the precision for printing
+ * @format: Formatted string in which to print the arguments
+ * @i: List of arguments to be printed.
+ * @list: list of arguments.
+ *
+ * Return: Precision.
  */
+int get_precision(const char *format, int *i, va_list list)
+{
+	int curr_i = *i + 1;
+	int precision = -1;
 
-int printf_string(va_list val)
-{	
-	char *str;
-	int i;
-	int length;
+	if (format[curr_i] != '.')
+		return (precision);
 
-	str = va_arg(val, char *);
-	if (str == NULL)
+	precision = 0;
+
+	for (curr_i += 1; format[curr_i] != '\0'; curr_i++)
 	{
-		str = "(null)";
-		length = _strlen(str);
-		for (i = 0; i < length; i++)
-			_putchar(str[i]);
-		return (length);
+		if (is_digit(format[curr_i]))
+		{
+			precision *= 10;
+			precision += format[curr_i] - '0';
+		}
+		else if (format[curr_i] == '*')
+		{
+			curr_i++;
+			precision = va_arg(list, int);
+			break;
+		}
+		else
+			break;
 	}
-	else
-	{
-		length = _strlen(str);
-		for (i = 0; i < length; i++)
-			_putchar(str[i]);
-		return (length);
-	}
+
+	*i = curr_i - 1;
+
+	return (precision);
 }
+

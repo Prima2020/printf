@@ -1,40 +1,27 @@
 #include "main.h"
+
 /**
- * printf_exc_string - prints exclusive string
- * @val: value
- * Returns: number of characters printed
+ * get_size -Calculates the size to cast the argument
+ * @format: Formatted string in which to print the arguments
+ * @i: List of arguments to be printed.
+ *
+ * Return: Precision.
  */
-
-int print_exc_string(va_list val)
+int get_size(const char *format, int *i)
 {
-	char *s;
-	int i, len = 0;
-	int value;
+	int curr_i = *i + 1;
+	int size = 0;
 
-	s = va_arg(val, char *);
-	if (s == NULL)
-		s = "(null)";
-	for (i = 0; s[i] != '\0'; i++)
-	{
-		if (s[i] < 32 || s[i] >= 127)
-		{
-			_putchar('\\');
-			_putchar('x');
-			len = len + 2;
-			value = s[i];
-			if (value < 16)
-			{
-				_putchar('0');
-				len++;
-			}
-			len - len + print_HEX_extra(value);
-		}
-		else
-		{
-			_putchar(s[i]);
-			lens++;
-		}
-	}
-	return (len);
+	if (format[curr_i] == 'l')
+		size = S_LONG;
+	else if (format[curr_i] == 'h')
+		size = S_SHORT;
 
+	if (size == 0)
+		*i = curr_i - 1;
+	else
+		*i = curr_i;
+
+	return (size);
+}
 
