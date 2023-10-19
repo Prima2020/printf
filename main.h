@@ -3,6 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stadarg.h>
+#include <limits.h>
+
+typedef struct format
+{
+	char *id;
+	int (*f)();
+} match;
 
 
 int _putchar(char c);
